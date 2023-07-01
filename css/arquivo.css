@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+		body {
+			background: #ecf0f3;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		form {
+	        background-color: #ecf0f3;
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+		}
+
+		form img {
+			display: block;
+			margin: 0 auto;
+		    max-width: 350px; 
+			margin-bottom: -13%;
+		}
+
+		form input[type="text"], form input[type="email"], form input[type="password"] {
+			display: block;
+			margin: 10px 0;
+			padding: 10px;
+			background-color: rgb(245, 244, 243);
+			box-shadow: inset 8px 8px 8px #cbced1b3, inset -8px -8px 8px rgba(255, 255, 255, 0.766);
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		form input[type="submit"] {
+			background-color: #0f4811;
+			color: #fff;
+			border: none;
+			border-radius: 3px;
+			padding: 10px;
+			cursor: pointer;
+			width: 100%;
+			box-sizing: border-box;
+			font-size: 16px;
+			margin-top: 20px;
+			font-family: 'Poppins', sans-serif;
+		}
+    
+        form input[type="submit"]:hover{
+          background-color: rgb(9, 134, 28);
+		}
+
+		form label {
+			display: block;
+			font-size: 16px;
+			margin-bottom: 5px;
+			color: #666;
+		}

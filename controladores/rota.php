@@ -1,71 +1,101 @@
 <?php
-    class RouterController {
+class RouterController
+{
 
-        private $request;
-        private $token;
-        
-        public function __construct($request) {
-            $this->request = $request;
-            $this->token = md5('teste');
-        }   
+    private $request;
+    private $token;
 
-        public function Index() {
-            
-            //@Rotas Privadas (tem um token).
-            if(isset($this->request['token'])) {
-                if($this->request['token'] == $this->token) {
-                    switch($this->request['rota']) {
-                        case 'InserirInventario':
-                            
-                            break;
+    public function __construct($request)
+    {
+        $this->request = $request;
+        $this->token = md5('teste');
+    }
+
+    public function Index()
+    {
+
+        //@Rotas Privadas (tem um token).
+        if (isset($this->request['token'])) {
+            if ($this->request['token'] == $this->token) {
+                switch ($this->request['rota']) {
+                    case 'InserirInventario':
+
+                        break;
+                }
+            }
+
+            return;
+        }
+
+        //@Rotas publicas (não possui um token).
+        if (!isset($this->request['token'])) {
+            switch ($this->request['rota']) {
+                //@Autenticar técnico!
+                case 'autenticarTecnico':
+
+                    $email = $_POST['email'];
+                    $senha = $_POST['senha'];
+
+                    $tecnico = new Tecnico();
+                    $tecnico->setEmail($email);
+                    $tecnico->setSenha($senha);
+
+                    try {
+                        $conexao = new Conexao();
+                        $conn = $conexao->conectar();
+                        $tecnico = TecnicoControlador::autenticar($tecnico, $conn);
+                        $resultSet['id'] = $tecnico->getId();
+                        $resultSet['name'] = $tecnico->getNome();
+                        $resultSet['token'] = $this->token;
+                        $resultSet['status'] = 200;
+                        echo json_encode($resultSet);
+                    } catch (Exception $erro) {
+                        echo json_encode(array('status' => 500));
                     }
-                }
-
-                return;
-            }
-
-            //@Rotas publicas (não possui um token).
-            if(!isset($this->request['token'])) {
-                switch($this->request['rota']) {
-                    //@Autenticar técnico!
-                    case 'autenticarTecnico': 
-                        
-                        $email = $_POST['email'];
-                        $senha = $_POST['senha'];
-
-                        $tecnico = new Tecnico();
-                        $tecnico->setEmail($email);
-                        $tecnico->setSenha($senha);
-
-                        try{
-                            $conexao = new Conexao(); 
-                            $conn = $conexao->conectar();
-                            $tecnico = TecnicoControlador::autenticar($tecnico,$conn);
-                            $resultSet['id'] = $tecnico->getId(); 
-                            $resultSet['token'] = $this->token; 
-                            echo json_encode($resultSet);
-                        }catch(Exception $erro){
-                            echo json_encode(array('status' => $erro->getMessage()));
-                        }
                     break;
-                }
+                //@Registrar técnico!
+                case 'RegistrarTecnico':
 
-                return;
+                    $nome = $_POST['nome'];
+                    $cpf = $_POST['cpf'];
+                    $email = $_POST['email'];
+                    $senha = $_POST['senha'];
+
+                    $tecnico = new Tecnico();
+                    $tecnico->setNome($nome);
+                    $tecnico->setCpf($cpf);
+                    $tecnico->setEmail($email);
+                    $tecnico->setSenha($senha);
+
+                    try {
+                        $conexao = new Conexao();
+                        $conn = $conexao->conectar();
+                        TecnicoControlador::salvar($tecnico, $conn);
+                        echo json_encode(array('status' => 200));
+                    } catch (Exception $erro) {
+                        echo json_encode(array('status' => 500));
+                    }
+                    break;
             }
 
-            //@404 not-found.
-            if(empty($this->request)) {
-                echo "SAFEST API - Rota inválida!";
-                return;
-            }
+            return;
         }
 
-        public function getRequest(){
-            return $this->request;
-        }
-
-        public function getToken(){
-            return $this->token;
+        //@404 not-found.
+        if (empty($this->request)) {
+            echo "SAFEST API - Rota inválida!";
+            return;
         }
     }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+}
 ?>

@@ -14,10 +14,6 @@
                 $hash = password_hash($tecnico->getSenha(),PASSWORD_DEFAULT);
                 $stmt->bindValue(4,$hash);
                 $stmt->execute();
-                //$conexao->desconectar();
-
-                //$tecnico->setId($conexao->lastInsertId());
-    
             } catch (Exception $e) {
                throw $e;
             }

@@ -1,4 +1,5 @@
 <?php
+
 class RouterController
 {
 
@@ -18,12 +19,74 @@ class RouterController
         if (isset($this->request['token'])) {
             if ($this->request['token'] == $this->token) {
                 switch ($this->request['rota']) {
-                    case 'InserirInventario':
 
+                    case 'insertInventory':
+
+                        $inventarioDaTela = json_decode(file_get_contents('php://input'),false);
+
+                        $inventarioControlador = new InventarioControlador();
+                        $conexao = new Conexao();
+                        $conn = $conexao->conectar();
+
+                        $inventario = new Inventario();
+                        $inventario -> setNome($inventarioDaTela->nomeInve); 
+                        $inventario -> setData($inventarioDaTela->data);
+                        
+                        $endereco = new Endereco();
+                        $endereco -> setCidade($inventarioDaTela->cidade);
+                        $endereco -> setEstado($inventarioDaTela->estado);
+                        $endereco -> setRua($inventarioDaTela->rua);
+                        $endereco -> setBairro($inventarioDaTela->bairro);
+                        $endereco -> setNumero($inventarioDaTela->numero);
+                        $endereco -> setCep($inventarioDaTela->cep);
+                        $endereco -> setComplemento($inventarioDaTela->complemento);
+                        //$inventario -> setEndereco($inventarioDaTela->endereco);
+                        $inventario -> setTecnico($inventarioDaTela->idTecnico);
+
+                        $situacoes = array();
+                        foreach($inventarioDaTela->situacoes as $situacaoDatela){
+
+                            $situacao = new Situacao();
+                            //$situacao -> setFuncionario($situacaoDatela->funcionario); 
+                            //$situacao -> setSetor ($situacaoDatela->setor); 
+                            $situacao -> setFuncao($situacaoDatela->funcao); 
+                            $situacao -> setDescricaoAtividade ($situacaoDatela->descricao); 
+                            $situacao  -> setEquipamento($situacaoDatela->epi);
+                            $situacao  -> setTipoRisco($situacaoDatela->tiporisco);
+                            $situacao  ->setAgenteCondicao($situacaoDatela->agente);
+                            $situacao  -> setConsequenciaExposicao($situacaoDatela->exposicao);
+                            $situacao  -> setProbabilidade($situacaoDatela->classificacaoProbabilidade);
+                            $situacao  -> setConsequencia($situacaoDatela->classificacaoConsequencia);
+                            $situacao  -> setMedidasAdministrativas($situacaoDatela->medidasControle);
+                            $situacao  -> setProbabilidadeReferencia($situacaoDatela->classificacaoConsequenciaProbabilidade);
+                            $situacao  -> setConsequenciaReferencia($situacaoDatela->classificacaoConsequenciaReferencia);
+                            $situacao  -> setMatrizAvaliacao($situacaoDatela->matriz);
+                            $situacao  -> setFonte($situacaoDatela->fonte);
+                            array_push($situacoes,$situacao);
+                        }
+
+                        $fotos = array();
+                        foreach($inventarioDaTela->fotos as $fotoDaTela){
+                            $foto = new Foto();
+                            $foto->setNome($fotoDaTela->nome);
+                            $foto->setTipo($fotoDaTela->tipo);
+                            //$foto->setTamanho($fotoDaTela->tamanho);
+                            $foto->setConteudo($fotoDaTela->conteudo);
+                            array_push($fotos,$foto);
+                        }
+
+                        $inventario->setSituacoes($situacoes);
+                        $inventario->setFotos($fotos);
+
+                        $inventarioControlador->salvar($inventario,$inventario->idTecnico,$conn);
+                        
+                        //$inventario = JSON_decode($this->request['data']);
+
+                        //var_dump($inventario->data);
                         break;
                 }
             }
-
+          
             return;
         }
 
@@ -76,6 +139,11 @@ class RouterController
                         echo json_encode(array('status' => 500));
                     }
                     break;
+
+                    case 'InserirSituacao':
+                        header('Location:http://localhost/front/pages/insertSituation.php');
+                        //echo json_encode(array('url' => '../front/pages/insertSituation.php'));
+
             }
 
             return;

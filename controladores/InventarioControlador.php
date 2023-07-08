@@ -9,11 +9,11 @@
 
     class InventarioControlador{
 
-        public static function salvar($inventario,$tecnico,$conexao){
+        public static function salvar($inventario,$idTecnico,$conexao){
             try{
                 
                 $conexao->beginTransaction();       
-                $inventario = InventarioDAO::salvar($inventario,$tecnico, $conexao);
+                $inventario = InventarioDAO::salvar($inventario,$idTecnico, $conexao);
                 EnderecoControlador::salvar($inventario->getEndereco(), $inventario->getId(),$conexao);
                 SituacaoControlador::salvar($inventario->getSituacoes(), $inventario->getId(),$conexao);
                 FotoControlador::salvar($inventario->getFotos(), $inventario->getId(), $conexao);

@@ -6,14 +6,16 @@
         public static function salvar($situacoes, $idInventario, $conexao) { // public function salveIdentificacao($situacoes, $inventario_id) 
             try{
 
-                $sql = "INSERT INTO identificacaorisco (descricao,equipamento,tipoRisco,AgenteCondicao,fonte,consequenciaExposicao,probabilidade,
+                $sql = "INSERT INTO identificacaorisco (setor,nomeFuncionario,descricao,equipamento,tipoRisco,AgenteCondicao,fonte,consequenciaExposicao,probabilidade,
                     consequencia,medidasAdministrativas,probabilidadeReferencia,consequenciaReferencia,matrizAvaliacao,funcao,idInve)
-                    VALUES (:descricao,:equipamento,:tipoRisco,:agenteCondicao,:fonte,:consequenciaExposicao,:probabilidade,
+                    VALUES (:setor,:nomeFuncionario,:descricao,:equipamento,:tipoRisco,:agenteCondicao,:fonte,:consequenciaExposicao,:probabilidade,
                     :consequencia,:medidasAdministrativas,:probabilidadeReferencia,:consequenciaReferencia,:matrizAvaliacao,:funcao,:idInve)";
                 
                 $stmt = $conexao->prepare($sql);
             
                 foreach ($situacoes as $situacao) {
+                    $stmt->bindValue(':setor', $situacao->getSetor());
+                    $stmt->bindValue(':nomeFuncionario', $situacao->getNomeFuncionario());
                     $stmt->bindValue(':descricao', $situacao->getDescricaoAtividade());
                     $stmt->bindValue(':equipamento', $situacao->getEquipamento());
                     $stmt->bindValue(':tipoRisco', $situacao->getTipoRisco());

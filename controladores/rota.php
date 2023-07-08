@@ -31,6 +31,7 @@ class RouterController
                         $inventario = new Inventario();
                         $inventario -> setNome($inventarioDaTela->nomeInve); 
                         $inventario -> setData($inventarioDaTela->data);
+                        $idTecnico = intval($inventarioDaTela->idTecnico);
                         
                         $endereco = new Endereco();
                         $endereco -> setCidade($inventarioDaTela->cidade);
@@ -40,28 +41,29 @@ class RouterController
                         $endereco -> setNumero($inventarioDaTela->numero);
                         $endereco -> setCep($inventarioDaTela->cep);
                         $endereco -> setComplemento($inventarioDaTela->complemento);
-                        //$inventario -> setEndereco($inventarioDaTela->endereco);
-                        $inventario -> setTecnico($inventarioDaTela->idTecnico);
+                        $inventario -> setEndereco($endereco);
+                        //$inventario -> setTecnico($inventarioDaTela->idTecnico);
 
                         $situacoes = array();
                         foreach($inventarioDaTela->situacoes as $situacaoDatela){
 
                             $situacao = new Situacao();
-                            //$situacao -> setFuncionario($situacaoDatela->funcionario); 
-                            //$situacao -> setSetor ($situacaoDatela->setor); 
+                            $situacao -> setNomeFuncionario($situacaoDatela->funcionario); 
+                            $situacao -> setSetor ($situacaoDatela->setor); 
                             $situacao -> setFuncao($situacaoDatela->funcao); 
                             $situacao -> setDescricaoAtividade ($situacaoDatela->descricao); 
-                            $situacao  -> setEquipamento($situacaoDatela->epi);
-                            $situacao  -> setTipoRisco($situacaoDatela->tiporisco);
-                            $situacao  ->setAgenteCondicao($situacaoDatela->agente);
-                            $situacao  -> setConsequenciaExposicao($situacaoDatela->exposicao);
-                            $situacao  -> setProbabilidade($situacaoDatela->classificacaoProbabilidade);
-                            $situacao  -> setConsequencia($situacaoDatela->classificacaoConsequencia);
-                            $situacao  -> setMedidasAdministrativas($situacaoDatela->medidasControle);
-                            $situacao  -> setProbabilidadeReferencia($situacaoDatela->classificacaoConsequenciaProbabilidade);
-                            $situacao  -> setConsequenciaReferencia($situacaoDatela->classificacaoConsequenciaReferencia);
-                            $situacao  -> setMatrizAvaliacao($situacaoDatela->matriz);
-                            $situacao  -> setFonte($situacaoDatela->fonte);
+                            $situacao -> setEquipamento($situacaoDatela->epi);
+                            $situacao -> setTipoRisco($situacaoDatela->tiporisco);
+                            $situacao -> setAgenteCondicao($situacaoDatela->agente);
+                            $situacao -> setConsequenciaExposicao($situacaoDatela->exposicao);
+                            $situacao -> setProbabilidade($situacaoDatela->classificacaoProbabilidade);
+                            $situacao -> setConsequencia($situacaoDatela->classificacaoConsequencia);
+                            $situacao -> setMedidasAdministrativas($situacaoDatela->medidasControle);
+                            $situacao -> setProbabilidadeReferencia($situacaoDatela->classificacaoProbabilidadeReferencia);
+                            $situacao -> setConsequenciaReferencia($situacaoDatela->classificacaoConsequenciaReferencia);
+                            $situacao -> setMatrizAvaliacao($situacaoDatela->matriz);
+                            $situacao -> setFonte($situacaoDatela->fonte);
+                            $situacao -> setInventario($inventario->getId());
                             array_push($situacoes,$situacao);
                         }
 
@@ -78,11 +80,11 @@ class RouterController
                         $inventario->setSituacoes($situacoes);
                         $inventario->setFotos($fotos);
 
-                        $inventarioControlador->salvar($inventario,$inventario->idTecnico,$conn);
+                        $inventarioControlador->salvar($inventario,$idTecnico,$conn);
                         
                         //$inventario = JSON_decode($this->request['data']);
-
-                        //var_dump($inventario->data);
+                        
+                        //var_dump($inventarioDaTela->rua);
                         break;
                 }
             }

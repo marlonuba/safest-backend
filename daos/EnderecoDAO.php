@@ -5,7 +5,7 @@
 
         public static function salvar($endereco, $idInventario, $conexao){
             try {
-                $sql = "INSERT INTO enderecos(rua, numero, cep, bairro,  cidade, estado, id_inventarios, complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO enderecos(rua,numero,cep,bairro,cidade,estado,id_inventarios,complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conexao->prepare($sql);
                 $stmt->bindValue(1, $endereco->getRua());
                 $stmt->bindValue(2, $endereco->getNumero());

@@ -15,6 +15,31 @@
         private $consequenciaReferencia;
         private $matrizAvaliacao;
         private $inventario;
+        private $nomeFuncionario;
+        private $setor;
+
+        public function getNomeFuncionario()
+        {
+                return $this->nomeFuncionario;
+        }
+
+        public function SetNomeFuncionario($nomeFuncionario)
+        {
+                $this->nomeFuncionario = $nomeFuncionario;
+
+                return $this;
+        }
+        public function getSetor()
+        {
+                return $this->setor;
+        }
+
+        public function setSetor($setor)
+        {
+                $this->setor = $setor;
+
+                return $this;
+        }
 
         public function getFuncao()
         {

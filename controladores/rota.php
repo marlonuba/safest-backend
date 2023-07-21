@@ -42,7 +42,6 @@ class RouterController
                         $endereco -> setCep($inventarioDaTela->cep);
                         $endereco -> setComplemento($inventarioDaTela->complemento);
                         $inventario -> setEndereco($endereco);
-                        //$inventario -> setTecnico($inventarioDaTela->idTecnico);
 
                         $situacoes = array();
                         foreach($inventarioDaTela->situacoes as $situacaoDatela){
@@ -86,6 +85,19 @@ class RouterController
                         
                         //var_dump($inventarioDaTela->rua);
                         break;
+                        case 'listInventory':
+
+                            $id_tecnico = $_POST['id'];
+                            
+                            $inventarioControlador = new InventarioControlador();
+                            $conexao = new Conexao();
+                            $conn = $conexao->conectar();
+                            $inventarios = $inventarioControlador->buscarTodos($id_tecnico, $conn);
+                            $inventarioSerializado = json_encode($inventarios);
+
+                            echo $inventarioSerializado;
+
+                            break;
                 }
             }
           

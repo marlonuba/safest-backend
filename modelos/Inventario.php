@@ -1,6 +1,6 @@
 <?php
 
-   class Inventario{
+   class Inventario implements JsonSerializable{
     
     private $id;
     private $nome;
@@ -65,6 +65,18 @@
 
     public function setTecnico($tecnico) {
         $this->tecnico = $tecnico;
+    }
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'nome' => $this->nome,
+            'data' => $this->data,
+            'endereco' => $this->endereco,
+            'situacoes' => $this->situacoes,
+            'fotos' => $this->fotos,
+            'tecnico' => $this->tecnico,
+        ];
     }
 
    }

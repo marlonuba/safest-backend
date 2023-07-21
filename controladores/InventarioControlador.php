@@ -25,5 +25,21 @@
                 
             }      
         }
+
+
+        public static function buscarTodos($idTecnico,$conexao){
+            try{
+                
+                               
+                return InventarioDAO::buscarTodos($idTecnico, $conexao);   
+                
+                
+
+            }catch (Exception $erro){
+                $conexao->rollback();
+                throw $erro;
+                
+            }      
+        }
     }
 ?>

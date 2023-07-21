@@ -98,6 +98,21 @@ class RouterController
                             echo $inventarioSerializado;
 
                             break;
+                        case 'generateReport':
+
+                            $id_tecnico = $_POST['id'];
+                            $id_inventario = $_POST['id_inventario'];
+                            
+                            $inventarioControlador = new InventarioControlador();
+                            $conexao = new Conexao();
+                            $conn = $conexao->conectar();
+                            
+                            $inventario = $inventarioControlador->buscarInventarioPeloId($id_tecnico,$id_relatorio, $conn);
+                            $inventarioSerializado = json_encode($inventario);
+
+                            echo $inventarioSerializado;
+
+                            break;
                 }
             }
           

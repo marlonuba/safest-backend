@@ -24,6 +24,8 @@ class RouterController
 
                         $inventarioDaTela = json_decode(file_get_contents('php://input'),false);
 
+                        echo var_dump($inventarioDaTela);
+
                         $inventarioControlador = new InventarioControlador();
                         $conexao = new Conexao();
                         $conn = $conexao->conectar();
@@ -79,6 +81,8 @@ class RouterController
                         $inventario->setSituacoes($situacoes);
                         $inventario->setFotos($fotos);
 
+                      
+
                         $inventarioControlador->salvar($inventario,$idTecnico,$conn);
                         
                         //$inventario = JSON_decode($this->request['data']);
@@ -99,18 +103,15 @@ class RouterController
 
                             break;
                         case 'generateReport':
-
-                            $id_tecnico = $_POST['id'];
-                            $id_inventario = $_POST['id_inventario'];
+                           
+                            $idTecnico = $_POST['id'];
+                            $idInventario = $_POST['id_inventario'];
                             
                             $inventarioControlador = new InventarioControlador();
                             $conexao = new Conexao();
                             $conn = $conexao->conectar();
-                            
-                            $inventario = $inventarioControlador->buscarInventarioPeloId($id_tecnico,$id_relatorio, $conn);
-                            $inventarioSerializado = json_encode($inventario);
-
-                            echo $inventarioSerializado;
+                            $relatorio = InventarioControlador::buscarRelatorio($idInventario, $idTecnico, $conexao);
+                            echo json_encode($relatorio);
 
                             break;
                 }
